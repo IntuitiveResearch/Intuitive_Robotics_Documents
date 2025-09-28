@@ -6,12 +6,13 @@
   <title>Flipbook Viewer</title>
   <meta name="color-scheme" content="light dark" />
   <style>
-    :root { --bg:#0f172a; --panel:#111827cc; --text:#e5e7eb; --accent:#6366f1; --accent2:#22c55e; --border:#1f2937; }
+    :root { --bg:#0f172a; --panel:#111827cc; --text:#e5e7eb; --accent:#6366f1; --border:#1f2937; }
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;background:linear-gradient(180deg,#0b1020 0%,#0f172a 60%,#0b1020 100%);color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
     .bar{position:sticky;top:0;z-index:10;backdrop-filter:blur(10px);background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;padding:10px 14px}
     .title{margin:0;font-size:16px;font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    .btn{border:1px solid var(--border);background:#0b1225;color:var(--text);padding:8px 12px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;font-weight:600}
+    .btn{border:1px solid var(--border);background:#0b1225;color:var(--text);padding:8px 12px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;font-weight:600;transition:border-color .15s ease}
+    .btn:hover{border-color:#334155}
     .wrap{height:calc(100% - 56px)}
     iframe{width:100%;height:100%;border:0;background:#000;border-top:1px solid var(--border)}
     .note{padding:12px}
@@ -25,6 +26,7 @@
     <a id="download" class="btn" href="#" download>Download PDF</a>
     <a id="openRaw" class="btn" href="#" target="_blank" rel="noopener">Open Raw</a>
   </div>
+
   <div class="wrap">
     <iframe id="viewer" title="PDF Flipbook Viewer"></iframe>
     <div id="msg" class="note hidden"></div>
@@ -32,14 +34,14 @@
 
   <script>
     (function () {
-      // IMPORTANT: do NOT add any <script src="pdfjs-dist/..."> tags anywhere.
       const qs = new URLSearchParams(location.search);
-      const pdf   = qs.get("pdf");     // e.g. /files/ai-robotics-lab/brochures/robotics_lab_brochure.pdf
+      const pdf   = qs.get("pdf");   // e.g. /files/ai-robotics-lab/brochures/robotics_lab_brochure.pdf
       const title = qs.get("title") || "Flipbook Viewer";
 
-      // 🔒 Force CDN viewer. If this ever changes, you will SEE it here.
-      const VIEWER = "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.4.168/web/viewer.html";
-      // Fallback CDN: const VIEWER = "https://unpkg.com/pdfjs-dist@4.4.168/web/viewer.html";
+      // ✅ Known-good version; change here in future if needed
+      const CDN_VER = "5.4.149";
+      const CDN_PRIMARY  = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${CDN_VER}/web/viewer.html`;
+      const CDN_FALLBACK = `https://unpkg.com/pdfjs-dist@${CDN_VER}/web/viewer.html`;
 
       const el = {
         iframe:   document.getElementById("viewer"),
@@ -54,36 +56,62 @@
 
       if (!pdf) {
         el.msg.classList.remove("hidden");
-        el.msg.innerHTML = "No PDF specified.<br/>Usage: <code>/flipbook.html?pdf=/files/ai-robotics-lab/brochures/robotics_lab_brochure.pdf&title=Robotics%20Lab%20Brochure</code>";
+        el.msg.innerHTML = "No PDF specified.<br/>Usage:<br/><code>/flipbook.html?pdf=/files/ai-robotics-lab/brochures/robotics_lab_brochure.pdf&title=Robotics%20Lab%20Brochure</code>";
         return;
       }
 
+      // Wire buttons
       el.download.href = pdf;
       el.openRaw.href  = pdf;
 
-      el.iframe.src = VIEWER + "#file=" + encodeURIComponent(pdf);
+      function loadViewer(src) {
+        el.iframe.src = src + "#file=" + encodeURIComponent(pdf);
+      }
 
-      // Graceful fallback: if CDN viewer fails, use browser’s native viewer
-      let fallback = true;
-      el.iframe.addEventListener("error", () => {
-        if (!fallback) return;
-        fallback = false;
-        el.iframe.src = pdf;
+      // Try jsDelivr → fallback to unpkg → fallback to browser-native viewer
+      let triedFallback = false;
+      let triedNative   = false;
+
+      function fallbackToUnpkg() {
+        if (triedFallback) return;
+        triedFallback = true;
+        loadViewer(CDN_FALLBACK);
         el.msg.classList.remove("hidden");
-        el.msg.textContent = "Loaded with browser viewer (CDN viewer unavailable).";
-      }, { once: true });
+        el.msg.textContent = "Primary CDN failed; switching to fallback viewer.";
+      }
 
+      function fallbackToNative(reason) {
+        if (triedNative) return;
+        triedNative = true;
+        el.iframe.src = pdf; // Browser’s native PDF viewer
+        el.msg.classList.remove("hidden");
+        el.msg.textContent = reason || "Loaded with browser viewer (CDN viewer unavailable).";
+      }
+
+      // Initial load
+      loadViewer(CDN_PRIMARY);
+
+      // If the iframe errors, try unpkg once
+      el.iframe.addEventListener("error", fallbackToUnpkg, { once: true });
+
+      // Timeout guard: if viewer doesn't load, try unpkg, then native
       setTimeout(() => {
         try {
           const blank = !el.iframe.contentWindow || el.iframe.contentWindow.location.href === "about:blank";
-          if (blank && fallback) {
-            fallback = false;
-            el.iframe.src = pdf;
-            el.msg.classList.remove("hidden");
-            el.msg.textContent = "Loaded with browser viewer (CDN viewer timed out).";
+          if (blank && !triedFallback && !triedNative) {
+            fallbackToUnpkg();
+            // Give unpkg a chance; then native
+            setTimeout(() => {
+              try {
+                const stillBlank = !el.iframe.contentWindow || el.iframe.contentWindow.location.href === "about:blank";
+                if (stillBlank && !triedNative) {
+                  fallbackToNative("Using browser viewer (CDN timed out).");
+                }
+              } catch (_) { /* cross-origin */ }
+            }, 4500);
           }
-        } catch (_e) { /* ignore cross-origin checks */ }
-      }, 6000);
+        } catch (_) { /* cross-origin access throws when viewer loaded; ignore */ }
+      }, 4500);
     })();
   </script>
 </body>
