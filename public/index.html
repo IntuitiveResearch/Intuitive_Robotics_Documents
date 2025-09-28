@@ -1,209 +1,136 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Intuitive Robotics • Product Library</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="index,follow" />
-  <link rel="icon" href="/assets/brand/logo.svg" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intuitive Robotics Resources</title>
   <style>
-    :root {
-      --indigo: #4338ca;
-      --slate-800: #1f2937;
-      --bg: #f8fafc;
-      --card: #ffffff;
-      --muted: #64748b;
-      --ring: rgba(67, 56, 202, .2);
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f7fa;
+      color: #333;
     }
-    * { box-sizing: border-box; }
-    body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial; background: var(--bg); color: var(--slate-800);}
-    header { position: sticky; top:0; background: rgba(255,255,255,.9); backdrop-filter: blur(10px); border-bottom: 1px solid #e5e7eb; z-index: 10;}
-    .wrap { max-width: 1200px; margin: 0 auto; padding: 16px; }
-    .title { display:flex; gap:12px; align-items:center; }
-    .title h1 { margin: 6px 0; font-size: 22px; }
-    .filters { display:flex; gap:12px; flex-wrap: wrap; margin: 12px 0 6px; }
-    input[type="search"], select {
-      padding: 10px 12px; border-radius: 10px; border: 1px solid #e5e7eb; background: #fff; min-width: 220px;
-      outline: none; box-shadow: 0 0 0 0 transparent;
+
+    header {
+      background: #2d3748;
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
     }
-    input[type="search"]:focus, select:focus { border-color: var(--indigo); box-shadow: 0 0 0 4px var(--ring); }
-    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; padding: 16px 0 40px;}
-    .card { background: var(--card); border: 1px solid #eef2f7; border-radius: 14px; padding: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.04); display:flex; flex-direction:column; gap:10px; }
-    .card h3 { margin: 0; font-size: 16px; }
-    .tags { display:flex; flex-wrap:wrap; gap:6px; }
-    .tag { background:#eef2ff; color:#3730a3; padding:2px 8px; border-radius: 999px; font-size: 12px; }
-    .buttons { display:flex; flex-wrap: wrap; gap: 8px; margin-top: 6px;}
-    .btn {
-      display:inline-flex; align-items:center; gap:6px; padding:9px 12px; border-radius:10px; border:1px solid #e5e7eb; text-decoration:none; color:#111827; background:#fff; font-weight:600;
-      transition: box-shadow .15s ease, transform .05s ease;
+
+    h1 {
+      margin: 0;
+      font-size: 2rem;
     }
-    .btn:hover { box-shadow: 0 6px 22px rgba(67,56,202,.12); }
-    .btn:active { transform: translateY(1px); }
-    .btn.primary { background: var(--indigo); color: #fff; border-color: transparent; }
-    .empty { color: var(--muted); padding: 24px; text-align:center; border:1px dashed #e5e7eb; border-radius: 12px; background:#fff; }
-    footer { border-top: 1px solid #e5e7eb; background: #fff; color: var(--muted);}
-    footer .wrap { padding: 20px 16px; font-size: 14px; }
+
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    section {
+      margin-bottom: 2rem;
+    }
+
+    h2 {
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      margin: 0.75rem 0;
+    }
+
+    a {
+      display: inline-block;
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.2s ease;
+    }
+
+    a.view {
+      background: #3182ce;
+      color: white;
+    }
+
+    a.view:hover {
+      background: #2b6cb0;
+    }
+
+    a.download {
+      background: #38a169;
+      color: white;
+    }
+
+    a.download:hover {
+      background: #2f855a;
+    }
   </style>
 </head>
 <body>
   <header>
-    <div class="wrap">
-      <div class="title">
-        <img src="/assets/brand/logo.svg" alt="" height="28"/>
-        <h1>Intuitive Robotics — Product & Training Library</h1>
-      </div>
-      <div class="filters">
-        <input id="q" type="search" placeholder="Search products, tags…" />
-        <select id="sectionFilter"><option value="">All Sections</option></select>
-        <select id="groupFilter"><option value="">All Groups</option></select>
-      </div>
-    </div>
+    <h1>Intuitive Robotics Resources</h1>
+    <p>Brochures · Manuals · Designs</p>
   </header>
 
-  <main class="wrap">
-    <div id="grid" class="grid"></div>
-    <div id="empty" class="empty" style="display:none;">No results. Try clearing filters or searching different terms.</div>
+  <main>
+    <!-- 📖 Brochures -->
+    <section>
+      <h2>Brochures</h2>
+      <ul>
+        <li>
+          <a class="view" 
+             href="/flipbook.html?pdf=/files/ai-robotics-lab/brochures/robotics_lab_brochure.pdf&title=Robotics%20Lab%20Brochure" 
+             target="_blank">
+            📖 View Robotics Lab Brochure
+          </a>
+          <a class="download" 
+             href="/files/ai-robotics-lab/brochures/robotics_lab_brochure.pdf" 
+             download>
+            ⬇️ Download PDF
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ⚙️ Manuals -->
+    <section>
+      <h2>Manuals</h2>
+      <ul>
+        <li>
+          <a class="download" 
+             href="/files/ai-robotics-lab/manuals/robotic_lab_manual.pdf" 
+             download>
+            ⬇️ Download Robotics Lab Manual
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 🖼️ Designs -->
+    <section>
+      <h2>Designs</h2>
+      <ul>
+        <li>
+          <a class="download" 
+             href="/files/ai-robotics-lab/designs/robotic_lab_layout.pdf" 
+             download>
+            ⬇️ Download Robotics Lab Layout
+          </a>
+        </li>
+      </ul>
+    </section>
   </main>
-
-  <footer><div class="wrap">© <span id="year"></span> Intuitive Robotics. All rights reserved.</div></footer>
-
-  <script>
-    const byId = (id) => document.getElementById(id);
-    const grid = byId("grid");
-    const empty = byId("empty");
-    const q = byId("q");
-    const sectionFilter = byId("sectionFilter");
-    const groupFilter = byId("groupFilter");
-    byId("year").textContent = new Date().getFullYear();
-
-    let manifest, flatItems = [];
-
-    const FILE_LABELS = {
-      brochure: "View Brochure",
-      manual: "Manual",
-      design: "Design",
-      spec: "Specification",
-      tender: "Tender Spec",
-      quotation: "Quotation",
-      bom: "Bill of Materials"
-    };
-
-    fetch("/manifest.json")
-      .then(r => r.json())
-      .then(data => {
-        manifest = data;
-        hydrateFilters(data);
-        flatItems = flatten(data);
-        render();
-      })
-      .catch(err => {
-        grid.innerHTML = '<div class="empty">Failed to load catalog (manifest.json). Check console.</div>';
-        console.error(err);
-      });
-
-    function hydrateFilters(data) {
-      data.sections.forEach(s => {
-        const o = document.createElement("option");
-        o.value = s.title;
-        o.textContent = s.title;
-        sectionFilter.appendChild(o);
-      });
-      sectionFilter.addEventListener("change", () => {
-        groupFilter.innerHTML = '<option value="">All Groups</option>';
-        const sec = data.sections.find(s => s.title === sectionFilter.value);
-        if (sec) {
-          sec.groups.forEach(g => {
-            const o = document.createElement("option");
-            o.value = g.title;
-            o.textContent = g.title;
-            groupFilter.appendChild(o);
-          });
-        }
-        render();
-      });
-      groupFilter.addEventListener("change", render);
-      q.addEventListener("input", render);
-    }
-
-    function flatten(data) {
-      const out = [];
-      data.sections.forEach(sec => {
-        sec.groups.forEach(grp => {
-          grp.items.forEach(item => {
-            out.push({ section: sec.title, group: grp.title, ...item });
-          });
-        });
-      });
-      return out;
-    }
-
-    function render() {
-      const term = q.value.trim().toLowerCase();
-      const sec = sectionFilter.value;
-      const grp = groupFilter.value;
-
-      const filtered = flatItems.filter(it => {
-        if (sec && it.section !== sec) return false;
-        if (grp && it.group !== grp) return false;
-        if (!term) return true;
-        const hay = [it.name, it.section, it.group, ...(it.tags || [])].join(" ").toLowerCase();
-        return hay.includes(term);
-      });
-
-      grid.innerHTML = "";
-      empty.style.display = filtered.length ? "none" : "block";
-
-      filtered.forEach(it => grid.appendChild(renderCard(it)));
-    }
-
-    function renderCard(it) {
-      const card = document.createElement("div");
-      card.className = "card";
-
-      const h = document.createElement("h3");
-      h.textContent = it.name;
-      card.appendChild(h);
-
-      const meta = document.createElement("div");
-      meta.style.color = "#6b7280";
-      meta.style.fontSize = "12px";
-      meta.textContent = `${it.section} • ${it.group}`;
-      card.appendChild(meta);
-
-      if (it.tags?.length) {
-        const tags = document.createElement("div");
-        tags.className = "tags";
-        it.tags.forEach(t => {
-          const span = document.createElement("span");
-          span.className = "tag";
-          span.textContent = t;
-          tags.appendChild(span);
-        });
-        card.appendChild(tags);
-      }
-
-      const btns = document.createElement("div");
-      btns.className = "buttons";
-
-      for (const [key, url] of Object.entries(it.files || {})) {
-        const a = document.createElement("a");
-        if (key === "brochure" && url.toLowerCase().endsWith(".pdf")) {
-          a.href = `/flipbook.html?pdf=${encodeURIComponent(url)}`; // viewer first
-          a.target = "_blank";
-          a.className = "btn primary";
-          a.textContent = "View Brochure";
-        } else {
-          a.href = url;
-          a.className = "btn";
-          a.textContent = FILE_LABELS[key] || key;
-          a.download = ""; // hint browser to download
-        }
-        btns.appendChild(a);
-      }
-
-      card.appendChild(btns);
-      return card;
-    }
-  </script>
 </body>
 </html>
