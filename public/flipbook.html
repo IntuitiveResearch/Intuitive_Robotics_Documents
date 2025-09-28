@@ -27,21 +27,31 @@
   </header>
   <iframe id="viewer" title="PDF Viewer"></iframe>
 
-  <script>
-    const p = new URLSearchParams(location.search);
-    const pdf = p.get("pdf");
-    const title = p.get("title") || "Flipbook Viewer";
-    document.getElementById("title").textContent = title;
-    const iframe = document.getElementById("viewer");
-    const download = document.getElementById("download");
-    if(!pdf){
-      document.body.innerHTML += '<p style="padding:24px">No PDF specified. Append ?pdf=/files/path/to.pdf</p>';
-    } else {
-      // Use Mozilla's pdf.js viewer via CDN for rich controls
-      const pdfjsViewer = "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.4.168/web/viewer.html#file=" + encodeURIComponent(pdf);
-      iframe.src = pdfjsViewer;
-      download.href = pdf;
-    }
-  </script>
+<script>
+  const p = new URLSearchParams(location.search);
+  const pdf  = p.get("pdf"); // e.g. /files/ai-robotics-lab/brochure/robotic_lab_brochure.pdf
+  const title = p.get("title") || "Flipbook Viewer";
+
+  // ✅ Use CDN-hosted PDF.js viewer (no extra files needed)
+  const VIEWER = "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.4.168/web/viewer.html";
+
+  const iframe   = document.getElementById("viewer");
+  const download = document.getElementById("download");
+  document.getElementById("title").textContent = title;
+
+  if (!pdf) {
+    document.body.insertAdjacentHTML(
+      "beforeend",
+      '<p style="padding:24px">No PDF specified. Append ?pdf=/files/ai-robotics-lab/brochure/robotic_lab_brochure.pdf</p>'
+    );
+  } else {
+    iframe.src     = `${VIEWER}#file=${encodeURIComponent(pdf)}`;
+    download.href  = pdf;
+
+    // Fallback: if CDN fails, load directly in browser
+    iframe.addEventListener("error", () => { iframe.src = pdf; }, { once: true });
+  }
+</script>
+
 </body>
 </html>
