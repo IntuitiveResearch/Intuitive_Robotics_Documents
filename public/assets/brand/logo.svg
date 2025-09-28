@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="36" viewBox="0 0 160 36">
+  <rect rx="8" width="36" height="36" fill="#4338CA"/>
+  <path d="M12 18l4 4 8-8" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="46" y="24" font-family="Inter, Arial, sans-serif" font-size="16" fill="#111827">Intuitive Robotics</text>
+</svg>

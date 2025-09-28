@@ -1,0 +1,59 @@
+{
+  "company": "Intuitive Robotics",
+  "sections": [
+    {
+      "title": "Lab Development",
+      "groups": [
+        {
+          "title": "IoT",
+          "items": [
+            {
+              "id": "iot-comprehensive-healthcare-platform",
+              "name": "Comprehensive Healthcare IoT Platform",
+              "tags": [
+                "IoT",
+                "Healthcare"
+              ],
+              "files": {
+                "brochure": "/files/iot-lab/brochures/healthcare_iot_brochure.pdf",
+                "manual": "/files/iot-lab/manuals/healthcare_iot_manual.pdf",
+                "design": "/files/iot-lab/drawings/healthcare_iot_bom.xlsx"
+              }
+            },
+            {
+              "id": "iot-ev-lab-bms-trainer",
+              "name": "EV Lab \u2013 BMS Trainer",
+              "tags": [
+                "EV",
+                "Battery"
+              ],
+              "files": {
+                "brochure": "/files/iot-lab/brochures/ev_bms_brochure.pdf",
+                "manual": "/files/iot-lab/manuals/ev_bms_manual.pdf",
+                "design": "/files/iot-lab/drawings/ev_bms_drawing.zip"
+              }
+            }
+          ]
+        },
+        {
+          "title": "AI & Robotics Lab",
+          "items": [
+            {
+              "id": "ai-robotic-arm",
+              "name": "Robotic Arm",
+              "tags": [
+                "AI",
+                "Robotics"
+              ],
+              "files": {
+                "brochure": "/files/ai-robotics-lab/brochures/robotic_lab_brochure.pdf",
+                "manual": "/files/ai-robotics-lab/manuals/robotic_lab_manual.pdf",
+                "design": "/files/ai-robotics-lab/drawings/robotic_lab_drawing.zip"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
